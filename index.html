@@ -1,42 +1,116 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تطبيق واجهة سوداء</title>
-    
-    <!-- استدعاء خط كايرو من جوجل فونت -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300&display=swap" rel="stylesheet">
-
+    <title>Light Bulb Toggle Switch</title>
     <style>
-        /* إعدادات الخلفية السوداء وتوسيط النص */
-        body {
-            background-color: black;
-            color: white;
+        /* CSS Reset & Base Styles */
+        *, *:before, *:after {
+            box-sizing: border-box;
             margin: 0;
-            height: 100vh;
+            padding: 0;
+        }
+
+        :root {
+            /* حجم خط مرن يعتمد على عرض الشاشة */
+            font-size: calc(64px + (80 - 64) * (100vw - 320px)/(960 - 320));
+        }
+
+        body, input {
+            font-size: 1em;
+            line-height: 1.5;
+        }
+
+        body {
+            background: #bbb;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
-            font-family: 'Cairo', sans-serif;
+            height: 100vh;
         }
 
-        /* إعدادات النص: وزن 300 وحجم الخط */
-        .message {
-            font-weight: 300;
-            font-size: 2rem; /* يمكنك تعديله حسب الرغبة */
-            text-align: center;
+        main {
+            text-align: center;	
         }
+
+        /* Toggle Switch Styling */
+        .l {
+            background-color: rgba(0,0,0,0.7);
+            border-radius: 0.75em;
+            box-shadow: 0.125em 0.125em 0 0.125em rgba(0,0,0,0.3) inset;
+            color: #fdea7b; /* لون الإضاءة عند التشغيل */
+            display: inline-flex;
+            align-items: center;
+            margin: auto;
+            padding: 0.15em;
+            width: 3em;
+            height: 1.5em;
+            transition: background-color 0.1s 0.3s ease-out, box-shadow 0.1s 0.3s ease-out;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            cursor: pointer;
+        }
+
+        .l:before, .l:after {
+            content: "";
+            display: block;
+        }
+
+        /* الجزء الدائري (المصباح) */
+        .l:before {
+            background-color: #d7d7d7;
+            border-radius: 50%;
+            width: 1.2em;
+            height: 1.2em;
+            transition: background-color 0.1s 0.3s ease-out, transform 0.3s ease-out;
+            z-index: 1;
+        }
+
+        /* قاعدة المصباح */
+        .l:after {
+            background:
+                linear-gradient(transparent 50%, rgba(0,0,0,0.15) 0) 0 50% / 50% 100%,
+                repeating-linear-gradient(90deg,#bbb 0,#bbb,#bbb 20%,#999 20%,#999 40%) 0 50% / 50% 100%,
+                radial-gradient(circle at 50% 50%,#888 25%, transparent 26%);
+            background-repeat: no-repeat;
+            border: 0.25em solid transparent;
+            border-left: 0.4em solid #d8d8d8;
+            border-right: 0 solid transparent;
+            transition: border-left-color 0.1s 0.3s ease-out, transform 0.3s ease-out;
+            transform: translateX(-22.5%);
+            transform-origin: 25% 50%;
+            width: 1.2em;
+            height: 1em;
+        }
+
+        /* الحالة عند التفعيل (Checked) */
+        .l:checked {
+            background-color: rgba(0,0,0,0.45);
+            box-shadow: 0.125em 0.125em 0 0.125em rgba(0,0,0,0.1) inset;
+        }
+
+        .l:checked:before {
+            background-color: currentColor; /* سيأخذ لون الـ color المحدد فوق */
+            transform: translateX(125%);
+        }
+
+        .l:checked:after {
+            border-left-color: currentColor;
+            transform: translateX(-2.5%) rotateY(180deg);
+        }
+
+        .l:focus {
+            outline: 0;
+        } 
     </style>
 </head>
 <body>
 
-    <div class="message">
-        سلام عليكم ورحمه الله وبركاته
-    </div>
+<main>
+    <input class="l" type="checkbox">
+</main>
 
 </body>
 </html>
